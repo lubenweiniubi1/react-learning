@@ -161,5 +161,183 @@ if (1) {
 
 5. JSX 原理：
 
+```javascript
+import React, { Component } from "react"
+import { render } from "react-dom"
 
+//这是 jsx的语法,但是 不是 合法的js代码
+if (0) {
+  class App extends Component {
+    //render(): ReactNode; 返回的这个
+    render() {
+      console.log(this) //这个组件实例
+      return (
+        <div className="con" id="appRoot">
+          <h1 className="title">JSX原理</h1>
+          <p>类组件是继承React.Component</p>
+        </div>
+      )
+    }
+  }
+}
+
+//  表示一个虚拟Dom树的方式,用一个js方式构建 上面的 jsx,会根据这个来重新渲染
+// const appVDom = {
+//   tag: "div",
+//   attrs: {
+//     className: "con",
+//     id: "appRoot",
+//   },
+//   children: [
+//     {
+//       tag: "h1",
+//       attrs: {
+//         className: "title",
+//       },
+//       children: ["JSX原理"],
+//     },
+//     {
+//       tag: "p",
+//       attrs: null,
+//       children: ["类组件是继承React.Component"],
+//     },
+//   ],
+// }
+
+//所以react在真正的渲染的时候会把上面的代码编译为下面的样子来运行
+//实际上编译执行的时候会被编译成这种:合法的JavaScript
+if (1) {
+  class App extends Component {
+    //render(): ReactNode; 返回的这个
+    render() {
+      console.log(this) //这个组件实例
+
+      //React.createElement 是一个方法用来创建元素,可以有很多的参数,但是前两个是固定的
+      //第一个是标签名,第二个是标签的属性,剩下的是子元素.....
+      //React.createElement(type,[props],[...children])
+      return React.createElement(
+        "div",
+        {
+          className: "con",
+          id: "appRoot",
+        },
+        React.createElement(
+          "h1",
+          {
+            className: "title",
+          },
+          "JSX原理"
+        ),
+        React.createElement("p", null, "类组件是继承React.Component")
+      )
+    }
+  }
+  render(<App />, document.querySelector("#root"))
+}
+```
+
+
+
+6. 组件中的样式：
+
+##### 使用`Classnames`插件条件拼接classname 
+
+> https://www.npmjs.com/package/classnames 
+>
+> A simple JavaScript utility for conditionally joining classNames together.
+
+安装：
+
+```shell
+npm install classnames --save
+```
+
+使用：
+
+```javascript
+classNames('foo', 'bar'); // => 'foo bar'
+classNames('foo', { bar: true }); // => 'foo bar'
+classNames({ 'foo-bar': true }); // => 'foo-bar'
+classNames({ 'foo-bar': false }); // => ''
+classNames({ foo: true }, { bar: true }); // => 'foo bar'
+classNames({ foo: true, bar: true }); // => 'foo bar'
+ 
+// lots of arguments of various types
+classNames('foo', { bar: true, duck: false }, 'baz', { quux: true }); // => 'foo bar baz quux'
+ 
+// other falsy values are just ignored
+classNames(null, false, 'bar', undefined, 0, 1, { baz: null }, ''); // => 'bar 1'
+```
+
+##### 使用`styled-components`
+
+> https://github.com/styled-components/styled-components
+
+```javascript
+import React from 'react';
+
+import styled from 'styled-components';
+
+// Create a <Title> react component that renders an <h1> which is
+// centered, palevioletred and sized at 1.5em
+const Title = styled.h1`
+  font-size: 1.5em;
+  text-align: center;
+  color: palevioletred;
+`;
+
+// Create a <Wrapper> react component that renders a <section> with
+// some padding and a papayawhip background
+const Wrapper = styled.section`
+  padding: 4em;
+  background: papayawhip;
+`;
+
+// Use them like any other React component – except they're styled!
+<Wrapper>
+  <Title>Hello World, this is my first styled component!</Title>
+</Wrapper>
+```
+
+
+
+项目代码：
+
+```javascript
+import React, { Component } from "react"
+import { render } from "react-dom"
+import "./index.css"
+import classNames from "classnames"
+import styled from "styled-components"
+
+if (1) {
+  const Title = styled.h1`
+    color: #f00;
+  `
+
+  class App extends Component {
+    render() {
+      const style = { color: "red" }
+      console.log(classNames("foo", { jar: true }))
+
+      return (
+        <div>
+          <h1>元素中的样式 </h1>
+          <ol>
+            <li style={style}> 使用style内联创建</li>
+            <li className="has-text-red"> 使用className创建</li>
+            <li className={classNames("a", { b: false }, { c: true })}>
+              要动态添加不同的className 就可以使用第三方的包
+            </li>
+            <li>
+              <Title>styled-components的使用</Title>
+            </li>
+          </ol>
+        </div>
+      )
+    }
+  }
+  render(<App />, document.querySelector("#root"))
+}
+```
 
