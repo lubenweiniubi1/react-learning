@@ -23,8 +23,6 @@ export default class Like extends Component {
     //setState 是异步的
     this.setState(
       (prevState, props) => {
-        console.log(prevState, props) //上一次的state
-        console.log("内部的", this.state.isLiked)
         return {
           // isLiked: !this.state.isLiked,
           isLiked: !prevState.isLiked,
@@ -32,10 +30,8 @@ export default class Like extends Component {
       },
       () => {
         //由于setState是异步的，如果想要获取到最新的state，应该在这个回调里面获取
-        console.log(this.state.isLiked)
       }
     )
-    console.log("外部的", this.state.isLiked)
   }
   render() {
     return (
