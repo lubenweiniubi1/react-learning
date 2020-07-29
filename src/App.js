@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react"
-import { TodoInput, TodoHeader, TodoList } from "./components"
+import { TodoInput, TodoHeader, TodoList, Like } from "./components"
 
 export default class App extends Component {
   // state = {
@@ -47,6 +47,7 @@ export default class App extends Component {
           </TodoHeader>
           <TodoInput btnDetail="ADD" />
           <TodoList todos={this.state.todos}></TodoList>
+          <Like />
         </>
       )
     }
