@@ -47,7 +47,7 @@ export default class App extends Component {
           </TodoHeader>
           <TodoInput btnDetail="ADD" />
           <TodoList todos={this.state.todos}></TodoList>
-          <Like />
+          <Like></Like>
         </>
       )
     }
