@@ -23,10 +23,10 @@ export default class App extends Component {
         },
       ],
     }
+    
   }
 
   addTodo = (todoTitle) => {
-    console.log(todoTitle)
     //这是常见的毛病 3不是一个数组，因为push语句返回的数组长度
     // this.setState({ 报错
     //   todos: this.state.todos.push({
@@ -61,7 +61,6 @@ export default class App extends Component {
     //可也可以用push
     if (1) {
       const newTodos1 = [...this.state.todos]
-      console.log(newTodos1)
       const newTodos = this.state.todos.slice()
       newTodos.push({
         id: Math.random(),
