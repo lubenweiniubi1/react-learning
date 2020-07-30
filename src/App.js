@@ -23,7 +23,6 @@ export default class App extends Component {
         },
       ],
     }
-    
   }
 
   addTodo = (todoTitle) => {
@@ -84,6 +83,19 @@ export default class App extends Component {
     }
   }
 
+  onCompletedChange = (id) => {
+    this.setState((prevState, curState) => {
+      return {
+        todos: prevState.todos.map((todo) => {
+          if (todo.id === id) {
+            todo.isCompleted = !todo.isCompleted
+          }
+          return todo
+        }),
+      }
+    })
+  }
+
   render() {
     //每个renturn 必须只有一个根元素，这里生成额外的dom
     //如果实在不想要，就使用空标签,有两种用法
@@ -106,7 +118,10 @@ export default class App extends Component {
             </i>
           </TodoHeader>
           <TodoInput addTodo={this.addTodo} />
-          <TodoList todos={this.state.todos}></TodoList>
+          <TodoList
+            todos={this.state.todos}
+            onCompletedChange={this.onCompletedChange}
+          ></TodoList>
           <Like></Like>
         </>
       )
