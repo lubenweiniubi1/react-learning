@@ -27,31 +27,31 @@ export default class TodoItem extends Component {
     // console.log(nextProps)
     // console.log(this.props)
 
-    return nextProps.isCompleted !== this.props.isCompleted
+    return nextProps.completed !== this.props.completed
   }
 
   //静态方法是没有this的，这个是在对象创建之前就存在了
   static getDerivedStateFromProps(props, state) {
     //根据props属性来计算
-    console.log(props, state)
+    // console.log(props, state)
     return {
-      compltedText: props.isCompleted ? "完成" : "未完成",
+      compltedText: props.completed ? "完成" : "未完成",
     }
   }
 
   render() {
-    const { isCompleted, title } = this.props
+    const { completed, title } = this.props
     console.log("todo render", this.state.compltedText)
     return (
       <li>
         <input
           type="checkbox"
-          checked={isCompleted}
+          checked={completed}
           onChange={this.handleChange}
         />
         <span>
           {" "}
-          {title} {isCompleted ? "已完成" : "未完成"}
+          {title} {completed ? "已完成" : "未完成"}
         </span>
       </li>
     )
@@ -68,18 +68,18 @@ export default class TodoItem extends Component {
 //   }
 
 //   render() {
-//     const { isCompleted, title } = this.props
+//     const { completed, title } = this.props
 //     console.log("todo render")
 //     return (
 //       <li>
 //         <input
 //           type="checkbox"
-//           checked={isCompleted}
+//           checked={completed}
 //           onChange={this.handleChange}
 //         />
 //         <span>
 //           {" "}
-//           {title} {isCompleted ? "已完成" : "未完成"}
+//           {title} {completed ? "已完成" : "未完成"}
 //         </span>
 //       </li>
 //     )

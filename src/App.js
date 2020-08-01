@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react"
 import { TodoInput, TodoHeader, TodoList, Like } from "./components"
+import { getTodos } from "./services"
 
 export default class App extends Component {
   // state = {
@@ -10,28 +11,50 @@ export default class App extends Component {
     this.state = {
       title: "待办事项列表",
       desc: "今日b事儿，今日毕",
-      todos: [
-        {
-          id: 1,
-          title: "吃饭",
-          isCompleted: true,
-        },
-        {
-          id: 2,
-          title: "睡觉",
-          isCompleted: false,
-        },
-      ],
+      todos: [],
+      isLoading: false, //了解渲染的方式，最开始先给你渲染个东西让你瞅瞅
     }
   }
 
+  getData = () => {
+    const that = this
+    this.setState({
+      isLoading: true,
+    })
+    getTodos()
+      .then((res) => {
+        console.log(res)
+        if (res.status === 200) {
+          that.setState({
+            todos: res.data,
+          })
+        } else {
+          console.log("处理错误")
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally(() => {
+        that.setState({
+          isLoading: false,
+        })
+      })
+  }
+
+  // componentDidMount() {
+  //   console.log(this.http.getTodos)
+  // }
+  componentDidMount() {
+    this.getData()
+  }
   addTodo = (todoTitle) => {
     //这是常见的毛病 3不是一个数组，因为push语句返回的数组长度
     // this.setState({ 报错
     //   todos: this.state.todos.push({
     //     id: Math.random(),
     //     title: todoTitle,
-    //     isCompleted: false,
+    //     completed: false,
     //   }),//这里返回了新的长度！！
     // })
 
@@ -41,7 +64,7 @@ export default class App extends Component {
         todos: this.state.todos.concat({
           id: Math.random(),
           title: todoTitle,
-          isCompleted: false,
+          completed: false,
         }),
       })
       /** array.push
@@ -64,7 +87,7 @@ export default class App extends Component {
       newTodos.push({
         id: Math.random(),
         title: todoTitle,
-        isCompleted: false,
+        completed: false,
       })
       this.setState({
         todos: newTodos,
@@ -80,6 +103,8 @@ export default class App extends Component {
        * 如果这个参数是负数，那么它规定的是从数组尾部开始算起的元素。
        * 返回一个新的数组，包含从 start 到 end （不包括该元素）的 arrayObject 中的元素。
        */
+
+       //先post -> 
     }
   }
 
@@ -88,7 +113,7 @@ export default class App extends Component {
       return {
         todos: prevState.todos.map((todo) => {
           if (todo.id === id) {
-            todo.isCompleted = !todo.isCompleted
+            todo.completed = !todo.completed
           }
           return todo
         }),
@@ -118,10 +143,15 @@ export default class App extends Component {
             </i>
           </TodoHeader>
           <TodoInput addTodo={this.addTodo} />
-          <TodoList
-            todos={this.state.todos}
-            onCompletedChange={this.onCompletedChange}
-          ></TodoList>
+          {!this.state.isLoading ? (
+            <TodoList
+              todos={this.state.todos}
+              onCompletedChange={this.onCompletedChange}
+            ></TodoList>
+          ) : (
+            <div>loading...</div>
+          )}
+
           <Like></Like>
         </>
       )
