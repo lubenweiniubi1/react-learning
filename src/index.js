@@ -1,12 +1,28 @@
-import React from "react"
+//Hook 是 React 16.8 的新增特性。它可以让你在不编写 class 的情况下使用 state 以及其他的 React 特性。
+import React, { useState, useEffect } from "react"
 import { render } from "react-dom"
-import App from "./App"
-import * as services from "./services"
 
-//如果全局扩展React.Component的一些prototype,比如想把ajax方法全局挂载到组件的this上，就可以使用这种方式：
+const Counter = () => {
+  console.log(useState(10)) //Array(2) [state ,f()]
+  //   const [title, setTitle] = useState("ABC")
+  //   console.log(title)
 
-//引入所有的ajax请求import * as services from "./services"
-//在prototype上挂载http=这个东西，然后 this.http.方法名 访问
-// React.Component.prototype.http = services
+  const [count, setCount] = useState(0)//这里是解构！
 
-render(<App />, document.querySelector("#root"))
+  //参数是一个回调 
+  useEffect(() => {
+    console.log("更新了")
+    document.title = `You clicked ${count} times`
+  }) //类似于componentDidMount ，componentDidUpdate
+
+  return (
+    <div>
+      <p>当前的数量为{count}</p>
+      <button onClick={() => setCount(count - 1)}>-</button>
+      <span>{count}</span>
+      <button onClick={() => setCount(count + 1)}>+</button>
+    </div>
+  )
+}
+
+render(<Counter />, document.querySelector("#root"))

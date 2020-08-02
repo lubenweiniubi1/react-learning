@@ -1,5 +1,3 @@
-## ajax访问
+## hooks
 
-### 使用axios
-
-> https://www.npmjs.com/package/axios
+为了让函数式组件也有类似state,生命周期的东西
