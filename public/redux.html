@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>redux原理</title>
+</head>
+
+<body>
+    <div>
+        <!-- 现在action就是一个对象了 -->
+        <button onclick="store.dispatch({type:'JIAN',n: 2})">-</button>
+        <span id="countDisplay">10</span>
+        <button onclick="store.dispatch({type:'JIA',n: 3})">+</button>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/redux/4.0.5/redux.js"></script>
+    <script>
+        const countDisplay = document.querySelector("#countDisplay")
+        const countState = {
+            count: 5
+        }
+        const renderCount = () => {
+            countDisplay.innerHTML = store.getState().count
+        }
+        const changeState = (state, action) => {
+            console.log(state);
+            if (!state) {//当state不存在时，初始化为xx
+                return countState
+            }
+            switch (action.type) {
+                case 'JIAN':
+                    // state.count -= action.n//不希望更改元数据
+                    return {
+                        ...state,
+                        count: state.count - action.n
+                    }
+                case 'JIA':
+                    return {
+                        ...state,
+                        count: state.count + action.n
+                    }//这里返回的新的数据
+                default:
+                    return state
+            }
+        }
+        const store = Redux.createStore(changeState)
+        renderCount()
+        store.subscribe(renderCount)//只执行了一次
+    </script>
+</body>
+
+</html>
