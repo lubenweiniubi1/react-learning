@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>redux原理</title>
+</head>
+
+<body>
+    <div>
+        <!-- 现在action就是一个对象了 -->
+        <button onclick="store.dispatch({type:'JIAN',n: 2})">-</button>
+        <span id="countDisplay">10</span>
+        <button onclick="store.dispatch({type:'JIA',n: 3})">+</button>
+    </div>
+    <script>
+        const countDisplay = document.querySelector("#countDisplay")
+        const countState = {
+            count: 5
+        }
+
+        const changeState = (action) => {
+            switch (action.type) {
+                case 'JIAN':
+                    countState.count -= action.n
+                    break
+                case 'JIA':
+                    countState.count += action.n
+                    break
+                default:
+                    break
+            }
+        }
+
+        const createStore = (state, changeState) => {//闭包,只是把方法管理起来了
+            const getState = () => { return state }
+            const listeners = []
+            const subscribe = (listener) => listeners.push(listener)
+            const dispatch = (action) => {
+                changeState(action)
+                listeners.forEach(func => {
+                    func()
+                })
+            }
+            return {
+                getState, dispatch, subscribe
+            }
+        }
+        const store = createStore(countState, changeState)
+
+        const renderCount = () => {
+            countDisplay.innerHTML = store.getState().count
+        }
+        renderCount()
+        console.log('执行次数');
+        store.subscribe(renderCount)//只执行了一次
+    </script>
+</body>
+
+</html>
