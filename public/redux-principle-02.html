@@ -19,41 +19,56 @@
         const countState = {
             count: 5
         }
-
-        const changeState = (action) => {
+        const renderCount = () => {
+            countDisplay.innerHTML = store.getState().count
+        }
+        const changeState = (state, action) => {
+            console.log(state);
+            if (!state) {//当state不存在时，初始化为xx
+                return countState
+            }
             switch (action.type) {
                 case 'JIAN':
-                    countState.count -= action.n
-                    break
+                    // state.count -= action.n//不希望更改元数据
+                    return {
+                        ...state,
+                        count: state.count - action.n
+                    }
                 case 'JIA':
-                    countState.count += action.n
-                    break
+                    return {
+                        ...state,
+                        count: state.count + action.n
+                    }//这里返回的新的数据
                 default:
-                    break
+                    return state
             }
         }
 
-        const createStore = (state, changeState) => {//闭包,只是把方法管理起来了
+        const createStore = (reducer) => {//闭包,只是把方法管理起来了
+            let state = null
             const getState = () => { return state }
             const listeners = []
             const subscribe = (listener) => listeners.push(listener)
             const dispatch = (action) => {
-                changeState(action)
+                debugger
+                // state = JSON.parse(JSON.stringify(changeState(state, action)))//深拷贝就不行了
+                state = changeState(state, action)//初始返回的时countState的引用
+                //后面state就是指向新的对象了
                 listeners.forEach(func => {
-                    func()
+                    func()//render方法渲染的数据时从getState里面获取的
+                    //这个的getState返回的state只有初始的时候时countState
                 })
             }
             return {
                 getState, dispatch, subscribe
             }
         }
-        const store = createStore(countState, changeState)
+        
+        const store = createStore(changeState)
+        store.dispatch({})//参数为action
 
-        const renderCount = () => {
-            countDisplay.innerHTML = store.getState().count
-        }
+      
         renderCount()
-        console.log('执行次数');
         store.subscribe(renderCount)//只执行了一次
     </script>
 </body>
