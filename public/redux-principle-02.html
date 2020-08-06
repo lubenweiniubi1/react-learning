@@ -59,15 +59,16 @@
                     //这个的getState返回的state只有初始的时候时countState
                 })
             }
+            dispatch({})//参数为action
+
             return {
                 getState, dispatch, subscribe
             }
         }
-        
-        const store = createStore(changeState)
-        store.dispatch({})//参数为action
 
-      
+        const store = createStore(changeState)
+
+
         renderCount()
         store.subscribe(renderCount)//只执行了一次
     </script>
