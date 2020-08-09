@@ -120,3 +120,4 @@ add(1,3)
 
 > https://www.redux.org.cn/
 
+注意：redux和react一点鸡毛关系都没有！
