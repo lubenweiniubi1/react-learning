@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 //导入actionCreators
-import { increment, decrement } from "../../actions/cart"
+import { increment, decrement ,decrementAsync} from "../../actions/cart"
 //connect 方法执行之后是一个高阶组件
 import { connect } from "react-redux"
 
@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-@connect(mapStateToProps, { increment, decrement })
+@connect(mapStateToProps, { increment, decrement ,decrementAsync})
 class CartList extends Component {
   constructor(props) {
     super(props)
@@ -43,6 +43,13 @@ class CartList extends Component {
                   <td>{item.title}</td>
                   <td>{item.price}</td>
                   <td>
+                  <button
+                      onClick={() => {
+                        this.props.decrementAsync(item.id)
+                      }}
+                    >
+                      等一会儿再减
+                    </button>
                     <button
                       onClick={() => {
                         this.props.decrement(item.id)
