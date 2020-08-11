@@ -22,20 +22,23 @@ export const decrement = (id) => {
   }
 }
 
-export const decrementAsync = (id) => {
+//异步action，使用redux-thunk之后，就可以在actionCreator里return 一个方法，这个方法的参数是dispatch
+// export const decrementAsync = (id) => {
+//   return (dispatch) => {
+//     setTimeout(() => {
+//       dispatch(decrement(id))
+//     }, 2000)
+//   }
+// }
+export const decrementAsync = id =>  dispatch  => {
   setTimeout(() => {
-    useDispatch({
-      type: actionType.CART_AMOUNT_DECREMENT,
-      payload: {
-        id,
-      },
-    })
+    dispatch(decrement(id))
   }, 2000)
 }
 /**
  * 之前：
  *   actionCreator =>自动dispatch（actionCreator())=>reducer=>store=> view
- * 
+ *
  * 现在：
  *   actionCreator=> middleware处理新生成的action=>手动dispatch（action）=>reducer=>store=> view
  */

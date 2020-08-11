@@ -9,3 +9,5 @@
 5. connect(mapStateToProps,{actionCreators})(yourComponent)
 6. actionCreators
 7. 修改reducers
+
+## redux-thunk
