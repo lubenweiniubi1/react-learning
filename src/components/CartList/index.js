@@ -81,7 +81,7 @@ class CartList extends Component {
 /**
  *  第一个mapStateToProps,作用就是从store里把state注入到当前组件
  *  第二个 mapDispatchToProps作用就是从store里把action注入到当前组件props,一般来说也没必要这样用。
- * 而是直接第二个参数直接传递对象，这里面对象就是actionCreators，只要传入了actionCreators，在组件内就可以通过this.props.actionCreator来调用
+ * 而是直接第二个参数直接传递对象，这里面对象就是actionCreators，只要传入了actionCreators，在组件内就可以通过this.props.actionCreator来调用。
  * 这样在调用之后哪个actionCreator就会自动帮你帮你把他内部action dispatch 出去
  */
 
