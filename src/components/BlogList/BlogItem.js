@@ -1,4 +1,5 @@
 import React from "react"
+//实际上这是一个展示组件（Dumb/Presentation components)
 
 export default function BlogItem(props) {
   return (

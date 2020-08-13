@@ -1,4 +1,5 @@
 import actionTypes from "./actionType"
+import { getPosts } from "../service"
 
 const startFetchBlogList = () => {
   return {
@@ -6,14 +7,34 @@ const startFetchBlogList = () => {
   }
 }
 
-const fetchBlogListSucess = () => {
+const fetchBlogListSucess = (payload) => {
   return {
     type: actionTypes.FETCH_BLOG_LIST_SUCCESS,
+    payload,
   }
 }
-const fetchBlogListSucess = () => {
-    return {
-      type: actionTypes.FETCH_BLOG_LIST_FAILED,
-    }
+const fetchBlogListFailed = () => {
+  return {
+    type: actionTypes.FETCH_BLOG_LIST_FAILED,
   }
-  
+}
+
+export const fetchBlogList = () => (dispatch) => {
+  dispatch(startFetchBlogList())
+  getPosts()
+    .then((resp) => {
+      if (resp.status === 200) {
+        dispatch(
+          fetchBlogListSucess({
+            list: resp.data,
+          })
+        )
+      } else {
+        dispatch(fetchBlogListFailed())
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      dispatch(fetchBlogListFailed())
+    })
+}
