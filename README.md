@@ -1,13 +1,4 @@
-## react-redux
+## react-router
 
-> https://react-redux.js.org/introduction/quick-start
+> https://reactrouter.com/web/guides/quick-start
 
-1. 创建reducers
-2. 合并reducers
-3. createStore
-4. Provider store= {store}
-5. connect(mapStateToProps,{actionCreators})(yourComponent)
-6. actionCreators
-7. 修改reducers
-
-## redux-thunk
