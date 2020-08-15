@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Artical, Home, Users } from "./pages"
+import { Artical, Home, Users, ArticalDetail,NotFound } from "./pages"
 import { Route, NavLink as Link, Redirect, Switch } from "react-router-dom"
 export default class App extends Component {
   render() {
@@ -19,10 +19,13 @@ export default class App extends Component {
           </li>
         </ul>
         <Switch>
-          <Redirect to="/home" exact from="/accb" />
           <Route component={Home} path="/home"></Route>
-          <Route component={Artical} path="/artical"></Route>
+          <Route component={Artical} path="/artical" exact></Route>完全匹配，多一个/都不行
+          <Route component={ArticalDetail} path="/artical/:id"></Route>
           <Route component={Users} path="/users"></Route>
+          <Route component={NotFound} path="/404"></Route>
+          <Redirect to="/home" from="/" exact/>
+          <Redirect to="/404"></Redirect>
         </Switch>
       </div>
     )
