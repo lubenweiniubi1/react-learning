@@ -1,8 +1,10 @@
 import React, { Component } from "react"
-import {BackHome} from '../../component'
-export default class ArticalDetail extends Component {
+import {withRouter} from 'react-router-dom'
+
+
+ class Button extends Component {
   goHome = () => {
-    // this.props.history.push('/')
+    this.props.history.push('/')
     this.props.history.push({
       pathname: "/home",
       state: {
@@ -11,12 +13,11 @@ export default class ArticalDetail extends Component {
     })
   }
   render() {
-    console.log(this.props)
     return (
       <div>
-        文章详情{this.props.match.params.id}
-        <BackHome/>
+        <button onClick={this.goHome}>返回首页</button>
       </div>
     )
   }
 }
+export default withRouter(Button)
